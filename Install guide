@@ -1,0 +1,25 @@
+---- helm install confluent chart 
+
+helm install dswes-ccpvt  ./cp-helm-charts-vt --namespace confluent-vt
+
+helm install dswes-ccpvt --set cp-zookeeper.enabled=false,cp-kafka.enabled=false,cp-schema-registry.enabled=false,cp-kafka-rest.enabled=false,cp-kafka-connect.enabled=true ./cp-helm-charts-vt --namespace confluent-vt
+
+helm install  dswes-ccpvt -f ./cp-helm-charts-vt/values.yaml ./cp-helm-charts-vt --namespace confluent-vt
+
+--  vt
+helm delete dswes-ccpvt -n confluent-vt
+helm install dswes-ccpvt ./cp-helm-charts_fvt -n confluent-vt
+helm install dswes-ccpvt  ./cp-helm-charts_fvt_6.0.1 --namespace confluent-vt
+
+helm install dswes-ccpfvt ./cp-helm-charts_fvt -n confluent-vt
+
+
+-- qa 
+helm delete dswes-ccpqa -n confluent-qa --purge
+helm install dswes-ccpqa ./cp-helm-charts_uat -n confluent-qa 
+helm install dswes-ccpqa ./cp-helm-charts_uat_6.0.1 -n confluent-qa
+
+--  prod
+helm delete dswes-ccpcls -n confluent
+helm install dswes-ccpcls ./cp-helm-charts-prod_bak -n confluent
+helm install dswes-ccpcls ./cp-helm-charts_prod -n confluent
